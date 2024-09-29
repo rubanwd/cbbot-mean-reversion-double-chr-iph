@@ -34,6 +34,19 @@ class BybitDemoSession:
             raise ValueError("Unsupported HTTP method")
 
         return response.json()
+    
+    def switch_to_hedge_mode(self):
+        try:
+            endpoint = "/v2/private/position/switch-mode"
+            params = {
+                "mode": 1  # 1 for Hedge Mode, 0 for One-Way Mode
+            }
+            response = self.send_request("POST", endpoint, params)
+            if response['retCode'] != 0:
+                raise Exception(f"API Error: {response['retMsg']}")
+            print("Switched to Hedge Mode successfully.")
+        except Exception as e:
+            print(f"Error switching to Hedge Mode: {e}")
 
     def get_historical_data(self, symbol, interval, limit):
         try:
@@ -125,7 +138,7 @@ class BybitDemoSession:
             response = self.send_request("POST", endpoint, order_params)
             if response['retCode'] != 0:
                 raise Exception(f"API Error: {response['retMsg']}")
-
+            self.switch_to_hedge_mode()
             return response['result']
         except Exception as e:
             print(f"Error placing order: {e}")
