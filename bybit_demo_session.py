@@ -77,7 +77,7 @@ class BybitDemoSession:
             # Manually set positionIdx based on known position mode:
             # For Hedge Mode: 1 for long (buy), 2 for short (sell)
             # For One-way Mode: 0
-            position_mode = "one_way"  # Set this to "hedge" if you are in hedge mode
+            position_mode = "hedge"  # Set this to "hedge" if you are in hedge mode
 
             if position_mode == "hedge":
                 position_idx = 1 if side.lower() == 'buy' else 2
